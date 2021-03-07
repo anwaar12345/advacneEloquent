@@ -20,16 +20,21 @@ Route::get('/', function () {
 // ->select('name')
 // ->get();
 
-try{ 
-    DB::beginTransaction();
-    User::where('id',5)->get();
-    User::where('id',5)->update(['name'=>'shah']);
-    // dump($users);
-}catch(\Exception $ex){
-    DB::rollBack();
+// DB::transaction(function(){
+     
+// try{ 
+//     DB::beginTransaction();
+//     $users = User::get();
 
-}
+//     dump($users);
+//     $comments = DB::table('comments')->get();
+//     dump($comments);
+// }catch(\Exception $ex){
+//     DB::rollBack();
+//     return $ex->getMessage();
+// }
 
-
+// },5);
+// dump(factory(App\Comment::class,3)->create());
 });
 
