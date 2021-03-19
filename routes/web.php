@@ -32,8 +32,12 @@ Route::get('/', function () {
     // $users = DB::table('users')->pluck('name')->first();
     // $users = DB::table('users')->select('name')->get();
     // dump($users);
-    $users = DB::table('users')->find(1);
-    dump($users);
+    // $users = DB::table('users')->where('id',1)->select('name','id')->first();
+    // dump($users);
+    // $comments = DB::table('comments')->select('user_id')
+    // ->get()->('user_id');
+    $comments = DB::table('comments')->where('content',"LIKE",'%a_q_1%')->exists();
+    dump($comments);
     // $comments = DB::table('comments')->select(DB::raw('content as comment_content'))->get();
     // dump($comments);
 // $users  = User::select('name')->get()->toArray();
