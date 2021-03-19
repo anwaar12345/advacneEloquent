@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         Barryvdh\Debugbar\ServiceProvider::class;
         DB::listen(function($query){
             var_dump($query->sql);
-            var_dump($query->binding ?? 'No Binding');
+            var_dump($query->bindings ?? 'No Binding');
             var_dump($query->time);
         });
     }

@@ -13,7 +13,29 @@ use App\User;
 */
 
 Route::get('/', function () {
+ $servername = "localhost";
+    // $username = "root";
+    // $password = "";
 
+    // try {
+    //   $conn = new PDO("mysql:host=$servername", $username, $password);
+    //   // set the PDO error mode to exception
+    //   $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    //   $sql = "CREATE DATABASE elqpract";
+    //   // use exec() because no results are returned
+    //   $conn->exec($sql);
+    //   echo "Database created successfully<br>";
+    // } catch(PDOException $e) {
+    //   echo $sql . "<br>" . $e->getMessage();
+    // }
+    // $users =  User::get()->toArray();
+    // $users = DB::table('users')->pluck('name')->first();
+    // $users = DB::table('users')->select('name')->get();
+    // dump($users);
+    $users = DB::table('users')->find(1);
+    dump($users);
+    // $comments = DB::table('comments')->select(DB::raw('content as comment_content'))->get();
+    // dump($comments);
 // $users  = User::select('name')->get()->toArray();
 // $users = DB::connection('sqlite')->select('select * from users where id = :id',['id' => 1]);
 // $users = DB::table('users')
