@@ -36,7 +36,7 @@ Route::get('/', function () {
     // dump($users);
     // $comments = DB::table('comments')->select('user_id')
     // ->get()->('user_id');
-    $comments = DB::table('comments')->where('content',"LIKE",'%a_q_1%')->exists();
+    $comments = DB::table('comments')->where('content',"LIKE",'%a%')->exists();
     dump($comments);
     // $comments = DB::table('comments')->select(DB::raw('content as comment_content'))->get();
     // dump($comments);
@@ -102,10 +102,23 @@ Route::get('/', function () {
 // ->get();
 
 ///////////////////// json querying practice
-$results = DB::table('users')
-->whereJsonContains("meta->skills", 'laravel')
-->where('meta->settings->site_background','black')
-->get();
+// $results = DB::table('users')
+// ->whereJsonContains("meta->skills", 'laravel') // array search in json
+// ->where('meta->settings->site_background','black')
+// ->get();
+// dump($results);
+
+////// //////////////// ///////////// ///////pagination 
+
+// $results = DB::table('comments')->simplePaginate(3);
+
+// dump($results->items());
+
+/////// full text search
+
+$results = DB::table('comments')
+->whereRaw("MATCH(content) AGAINST(? IN BOOLEAN MODE)",['+perferendiddds -quam'])->get();
+// $results = DB::table('comments')->where("content", "LIKE", "%perferendis%")->get();
 dump($results);
 });
 

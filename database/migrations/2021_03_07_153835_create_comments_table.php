@@ -21,6 +21,7 @@ class CreateCommentsTable extends Migration
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+        DB::statement('ALTER TABLE comments ADD FULLTEXT full_text (content)');
         Schema::connection('sqlite')->dropIfExists('comments');
         Schema::connection('sqlite')->create('comments', function (Blueprint $table) {
             
