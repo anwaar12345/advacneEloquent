@@ -13,7 +13,7 @@ use App\User;
 */
 
 Route::get('/', function () {
- $servername = "localhost";
+//  $servername = "localhost";
     // $username = "root";
     // $password = "";
 
@@ -62,5 +62,16 @@ Route::get('/', function () {
 
 // },5);
 // dump(factory(App\Comment::class,3)->create());
+// 1 ) $results = DB::table('rooms')->where('price','<',200)->get();
+$results = DB::table('rooms')->where([
+    [ 'price' , '>' , 10],
+    ['room_size' , '>' , 0]])
+    ->whereBetween('room_number',[1,30])
+    ->where(function($query)
+    {
+        $query->where([['price','>=',50],['price','<',300]]);
+    })
+    ->get();
+dump($results);
 });
 
