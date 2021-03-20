@@ -63,15 +63,45 @@ Route::get('/', function () {
 // },5);
 // dump(factory(App\Comment::class,3)->create());
 // 1 ) $results = DB::table('rooms')->where('price','<',200)->get();
-$results = DB::table('rooms')->where([
-    [ 'price' , '>' , 10],
-    ['room_size' , '>' , 0]])
-    ->whereBetween('room_number',[1,30])
-    ->where(function($query)
-    {
-        $query->where([['price','>=',50],['price','<',300]]);
-    })
-    ->get();
+// $results = DB::table('rooms')->where([
+//     [ 'price' , '>' , 10],
+//     ['room_size' , '>' , 0]])
+//     ->whereBetween('room_number',[1,30])
+//     ->where(function($query)
+//     {
+//         $query->where([['price','>=',50],['price','<',300]]);
+//     })
+//     ->get();
+// dump($results);
+
+
+//////////////////////////////////////////////////////////// reservation advance query builder where clause
+
+// $results = DB::table('rooms')
+// ->whereBetween('price',[300,400])
+// ->get();
+// $results = DB::table('rooms')
+// ->whereNotBetween('price',[100,400])
+// ->get();
+// dump($results);
+
+// $results = DB::table('rooms')
+// ->whereNotIn('price',[230,200,100,500])
+// ->get();
+/////////////////////// nested query
+
+$results = DB::table('users')
+->whereExists(function($query)
+{
+    $query->select('id')
+    ->from('reservations')
+    ->whereRaw('reservations.user_id = users.id')
+    ->where('check_in','<','2021-03-30')
+    ->limit(1);    
+})->limit(1)
+->get();
+
+
 dump($results);
 });
 
