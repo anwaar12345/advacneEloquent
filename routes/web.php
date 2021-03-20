@@ -90,18 +90,22 @@ Route::get('/', function () {
 // ->get();
 /////////////////////// nested query
 
+// $results = DB::table('users')
+// ->whereExists(function($query)
+// {
+//     $query->select('id')
+//     ->from('reservations')
+//     ->whereRaw('reservations.user_id = users.id')
+//     ->where('check_in','<','2021-03-30')
+//     ->limit(1);    
+// })->limit(1)
+// ->get();
+
+///////////////////// json querying practice
 $results = DB::table('users')
-->whereExists(function($query)
-{
-    $query->select('id')
-    ->from('reservations')
-    ->whereRaw('reservations.user_id = users.id')
-    ->where('check_in','<','2021-03-30')
-    ->limit(1);    
-})->limit(1)
+->whereJsonContains("meta->skills", 'laravel')
+->where('meta->settings->site_background','black')
 ->get();
-
-
 dump($results);
 });
 
