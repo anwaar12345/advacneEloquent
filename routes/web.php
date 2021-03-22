@@ -36,8 +36,8 @@ Route::get('/', function () {
     // dump($users);
     // $comments = DB::table('comments')->select('user_id')
     // ->get()->('user_id');
-    $comments = DB::table('comments')->where('content',"LIKE",'%a%')->exists();
-    dump($comments);
+    // $comments = DB::table('comments')->where('content',"LIKE",'%a%')->exists();
+    // dump($comments);
     // $comments = DB::table('comments')->select(DB::raw('content as comment_content'))->get();
     // dump($comments);
 // $users  = User::select('name')->get()->toArray();
@@ -116,9 +116,17 @@ Route::get('/', function () {
 
 /////// full text search
 
-$results = DB::table('comments')
-->whereRaw("MATCH(content) AGAINST(? IN BOOLEAN MODE)",['+perferendiddds -quam'])->get();
-// $results = DB::table('comments')->where("content", "LIKE", "%perferendis%")->get();
-dump($results);
-});
+// $results = DB::table('comments')
+// ->whereRaw("MATCH(content) AGAINST(? IN BOOLEAN MODE)",['+perferendiddds -quam'])->get();
+// // $results = DB::table('comments')->where("content", "LIKE", "%perferendis%")->get();
+// dump($results);
 
+$results =  DB::table('comments')
+            ->select(DB::raw("COUNT(comments.user_id) as comment_count,users.name"))
+            ->join('users','users.id','=','user_id')
+            ->groupBy('user_id','users.name')
+            ->get();
+dump($results);
+
+
+});
