@@ -15,6 +15,7 @@ class CreateReservationsTable extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->double('price',6,2)->nullable();
             $table->date('check_in')->nullable();
             $table->date('check_out')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();

@@ -121,12 +121,52 @@ Route::get('/', function () {
 // // $results = DB::table('comments')->where("content", "LIKE", "%perferendis%")->get();
 // dump($results);
 
-$results =  DB::table('comments')
-            ->select(DB::raw("COUNT(comments.user_id) as comment_count,users.name"))
-            ->join('users','users.id','=','user_id')
-            ->groupBy('user_id','users.name')
+// $results =  DB::table('comments')
+//             ->select(DB::raw("COUNT(comments.user_id) as comment_count,users.name"))
+//             ->join('users','users.id','=','user_id')
+//             ->groupBy('user_id','users.name')
+//             ->get();
+// dump($results);
+
+// $results = DB::table('users')
+//             // ->orderBy('name','asc')
+//             ->inRandomOrder()
+//             ->get();
+// dd($results);
+// $results = DB::table('comments')
+//             ->select(DB::raw('COUNT(id) as no_comments'),'rating','id')
+//             ->groupBy('rating','id')
+//             ->havingRaw('rating = 5')
+//             ->get();
+// dump($results); 
+// $results = DB::table('comments')
+//             ->skip(5) //skip first 5
+//             ->take(5) // take next 5
+//             ->get();
+// dump($results); 
+
+// $results = DB::table('comments')
+//             ->offset(5) // skip / leave 5
+//             ->limit(5) // next 5
+//             ->get();
+// dump($results);
+// $room_id = 2;
+// $results = DB::table('reservations')
+//             ->when('room_id', function($query) use($room_id) {
+//                 $query->where('room_id',$room_id);
+//             })
+//             ->get();
+// dump($results);
+$sortBy = NULL;
+$results = DB::table('reservations')
+            ->when($sortBy, function($query) use($sortBy)
+            {
+                $query->orderBy($sortBy);
+            },function($query)
+            {
+                $query->orderBy('price');
+            }
+            )
             ->get();
-dump($results);
-
-
+ dump($results);           
 });
