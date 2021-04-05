@@ -2,6 +2,8 @@
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Reservation;
+use App\Comment;
+use App\Room;
 use Illuminate\Support\Facades\Hash;
 /*
 |--------------------------------------------------------------------------
@@ -252,9 +254,38 @@ Route::get('/', function () {
 // dump($results);
 // DB::table('users')->where('id',1)->delete();
 //  DB::table('users')->where('id',2)->delete();
-$results = DB::table('users')
-            ->sharedLock()
-            ->lockForUpdate()
-            ->get();
-dump($results);
+// $results = DB::table('users')
+//             ->sharedLock()
+//             ->lockForUpdate()
+//             ->get();
+// dump($results);
+});
+
+Route::get('/eloquent',function()
+{
+    // $results = User::select('name','email')
+    //         ->addSelect(['worst_rating' => Comment::select('rating')
+    //         ->whereColumn('user_id','users.id')
+    //         ->orderBy('rating','asc')
+    //         ->limit(1)
+    //         ])
+    //         ->get()->toArray();
+    // dump($results);
+    // $results = User::orderByDesc(
+    //     Reservation::select('check_in')
+    //     ->whereColumn('user_id','users.id')
+    //     ->orderBy('check_in','desc')
+    //     ->limit(1)
+    // )->select('id','name')->get();
+    // dump($results);
+    // $results = Reservation::chunk(2,function($reservations){
+    //     foreach($reservations as $reservation){
+    //         echo $reservation->id;
+    //     }
+    // });
+    // dump($results);
+    foreach(Room::cursor() as $room){
+        echo $room->id;
+    }
+    
 });
