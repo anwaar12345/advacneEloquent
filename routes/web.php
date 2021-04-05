@@ -284,8 +284,33 @@ Route::get('/eloquent',function()
     //     }
     // });
     // dump($results);
-    foreach(Room::cursor() as $room){
-        echo $room->id;
-    }
-    
+    // foreach(Room::cursor() as $room){
+    //     echo $room->id;
+    // }
+    // $results = User::where('email',"LIKE","%t")->get();
+    // dump($results);
+    // $results = User::where('email','LIKE','%@gmail.coma')->firstOr(function(){
+    //     User::where('id',4  )->update(['email' => 'shah@gmail.com']);
+    // });
+    // dump($results);
+    // $results = Comment::max('rating');
+    // dump($results);
+    // $results = Comment::rating(1)->get();
+    // dump($results);
+    // $results = Comment::withoutGlobalScope('rating')->get();
+    // dump($results);
+    // $results = Comment::rating(1)->get();
+    // dump($results);
+    // $results = Comment::all()->toArray();
+    // dump($results);
+    // $results = Comment::all()->count();
+    // dump($results);
+    // $results = Comment::all()->toJson();
+    // dump($results);
+    $comments = Comment::all();
+    $results = $comments->reject(function($comment)
+    {
+     return $comment->where('rating','>',5);
+    });
+    dump($results);
 });
