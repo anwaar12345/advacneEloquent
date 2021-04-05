@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\DB;
 use App\User;
 use App\Reservation;
+use Illuminate\Support\Facades\Hash;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -229,10 +230,31 @@ Route::get('/', function () {
 //             ->join('cities','reservations.city_id','=','cities.id')
 //             ->where([['room_id','>',3],['room_id','<',7],['user_id','>',1]])
 //             ->get();
+// // dump($results);
+// $users = DB::table('users')->select('name',DB::raw('"users" as type_of_activity'));   
+// $results = DB::table('reservations')->select('check_in',DB::raw('"reservations" as type_of_activity'))
+//             ->union($users)
+//             ->get();         
 // dump($results);
-$users = DB::table('users')->select('name',DB::raw('"users" as type_of_activity'));   
-$results = DB::table('reservations')->select('check_in',DB::raw('"reservations" as type_of_activity'))
-            ->union($users)
-            ->get();         
-dump($results);            
+// DB::table('users')->insert([
+//     ['name' => 'syed Anwar Shah','email' => 'syedanwar016@gmail.com','password' => Hash::make('shah')],
+// ]);
+// $results = DB::table('users')
+//           ->get();
+// dump($results);
+//  DB::table('users')
+//             ->where('id',1)
+//             ->update(['name'=>'shah']);
+//  DB::table('users')
+//             ->where('id',1)
+//             ->update(['meta->settings->site_language'=>'ur']);
+// $results = DB::table('users')->get();
+// dump($results);
+// DB::table('users')->where('id',1)->delete();
+//  DB::table('users')->where('id',2)->delete();
+$results = DB::table('users')
+            ->sharedLock()
+            ->lockForUpdate()
+            ->get();
+dump($results);
 });
