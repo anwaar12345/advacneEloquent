@@ -20,8 +20,10 @@ class CreateReservationsTable extends Migration
             $table->date('check_out')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('room_id')->nullable();
+            $table->unsignedBigInteger('city_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade');
+            $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
             $table->timestamps();
         });
     }

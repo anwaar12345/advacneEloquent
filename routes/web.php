@@ -1,6 +1,7 @@
 <?php
 use Illuminate\Support\Facades\DB;
 use App\User;
+use App\Reservation;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,7 +12,13 @@ use App\User;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::group(['prefix' => 'api/v1'],function()
+{
+    Route::get('/', function () {
+        dd(123);
+    });
 
+});
 Route::get('/', function () {
 //  $servername = "localhost";
     // $username = "root";
@@ -157,16 +164,75 @@ Route::get('/', function () {
 //             })
 //             ->get();
 // dump($results);
-$sortBy = NULL;
-$results = DB::table('reservations')
-            ->when($sortBy, function($query) use($sortBy)
-            {
-                $query->orderBy($sortBy);
-            },function($query)
-            {
-                $query->orderBy('price');
-            }
-            )
-            ->get();
- dump($results);           
+// $sortBy = NULL;
+// $results = DB::table('reservations')
+//             ->when($sortBy, function($query) use($sortBy)
+//             {
+//                 $query->orderBy($sortBy);
+//             },function($query)
+//             {
+//                 $query->orderBy('price');
+//             }
+//             )
+//             ->get();
+//  dump($results);  
+// $price = 481.00;
+// $results = DB::table('reservations')
+//             ->when($price,function ($query)
+//             {
+//                 $query->orderBy('price');
+//             })->get();
+//  dd($results);    
+
+// $results = Reservation::select("*")
+//             ->where([['check_in','=',date('y-m-d')]])
+//             ->get()->map(function($results){
+//                $data = [];
+//                $data['prices'] = $results->price;
+//                 return $data;
+//             });
+// dump($results);
+
+// $results = DB::table('comments')
+//             ->orderBy('id')
+//            ->chunk(2,function($results){
+//                foreach($results as $result){
+//                    return $result;
+//                }
+//            });
+// dump($results);            
+
+// $results = DB::table('comments')
+//             ->chunkById(4,function($results){
+//                 foreach($results as $result){
+//                     DB::table('comments')
+//                     ->where('id',$result->id)
+//                     ->update(['rating' => NULL]);
+//                 }
+//             });
+// //              
+// dump($results);
+// $room_id = 1;
+// $results = DB::table('reservations')
+//             ->when($room_id,function($query,$room_id){
+//                 $query->where('room_id',$room_id);
+//             })
+//             ->get();
+// dump($results);            
+//  $results = DB::table('reservations')
+//              ->select('reservations.check_in','reservations.check_out',
+//              DB::raw('reservations.price AS reservation_price'),'cities.name AS city_name',
+//              'users.name as user_name','rooms.room_number',
+//              'rooms.room_size','rooms.description') 
+//             ->join('rooms','reservations.room_id','=','rooms.id')
+//             ->join('users','reservations.user_id','=','users.id')
+//             ->join('cities','reservations.city_id','=','cities.id')
+//             ->where([['room_id','>',3],['room_id','<',7],['user_id','>',1]])
+//             ->get();
+// dump($results);
+$users = DB::table('users')->select('name',DB::raw('"users" as type_of_activity'));   
+$results = DB::table('reservations')->select('check_in',DB::raw('"reservations" as type_of_activity'))
+            ->union($users)
+            ->get();         
+dump($results);            
 });
