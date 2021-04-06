@@ -323,9 +323,22 @@ Route::get('/eloquent',function()
     //   return $comment->rating > 3 ;
     // });
     // dump($comment->diff($results));
-    $comment = new Comment();
-    $comment->content = "content will be filled filled";
-    $comment->rating =  5;
-    $comment->user_id = 3;
-    dump($comment->save())  ;
+    // $comment = new Comment();
+    // $comment->content = "content will be filled filled";
+    // $comment->rating =  5;
+    // $comment->user_id = 3;
+    // dump($comment->save());
+    // dump(Comment::create([
+    //     'content' => 'dummy create sy',
+    //     'rating' => 5,
+    //     'user_id' => 3
+    // ]));
+    // $comment = Comment::find(1);
+    // $comment->content = "testing";
+    // dd($comment->update());
+    // $results = Comment::where('id',1)->update(['content' => 'tested tested tested tested tested']);
+    // dd($results);  
+    // $comment = Comment::find(1);
+    // $comment->delete(); 
+    Comment::where('id',5)->delete();              
 });
