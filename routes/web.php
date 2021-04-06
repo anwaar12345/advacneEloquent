@@ -307,10 +307,25 @@ Route::get('/eloquent',function()
     // dump($results);
     // $results = Comment::all()->toJson();
     // dump($results);
-    $comments = Comment::all();
-    $results = $comments->reject(function($comment)
-    {
-     return $comment->where('rating','>',5);
-    });
-    dump($results);
+    // $comments = Comment::all();
+    // $results = $comments->reject(function($comment)
+    // {
+    //  return $comment->where('rating','>',5);
+    // });
+    // dump($results);
+    // $results = Comment::all();
+    //  $comments = Comment::all()->map(function($query){
+    //     return $query->content;
+    //  });   
+    //  dump($comments->diff($results));
+    // $comment = Comment::all();
+    // $results = $comment->reject(function($comment){
+    //   return $comment->rating > 3 ;
+    // });
+    // dump($comment->diff($results));
+    $comment = new Comment();
+    $comment->content = "content will be filled filled";
+    $comment->rating =  5;
+    $comment->user_id = 3;
+    dump($comment->save())  ;
 });
