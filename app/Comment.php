@@ -8,14 +8,36 @@ use Illuminate\Database\Eloquent\Builder;
 class Comment extends Model
 {
     protected $fillable = ['content','rating','user_id'];
-    protected static function booted()
-    {
-        static::addGlobalScope('rating',function($builder){
-            $builder->where('rating','>','2');
-        });
-    }
+    // protected static function booted()
+    // {
+    //     static::addGlobalScope('rating',function($builder){
+    //         $builder->where('rating','>','2');
+    //     });
+    // }
     public function scopeRating($query,$val)
     {
        $query->where('rating','>',$val);
     }
+    protected static function booted()
+    {
+        static::retrieved(function ($comment) {
+            echo $comment->rating;
+        });
+    }
+
+    public function getRatingAttribute($val)  // Accessor example with column name  it takes argument
+    {
+        return $val+10;
+    }
+    public function getWhoWhatAttribute() //with out argument accesor example
+    {
+        return "user {$this->user_id} rates {$this->rating}";
+    }
+
+    public function setContentAttribute($val)
+    {
+         $this->attributes['content'] = strtoupper($val);
+         $this->attributes['rating']= +1;
+    }
+
 }

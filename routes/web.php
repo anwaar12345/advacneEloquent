@@ -340,5 +340,16 @@ Route::get('/eloquent',function()
     // dd($results);  
     // $comment = Comment::find(1);
     // $comment->delete(); 
-    Comment::where('id',5)->delete();              
+    // dd(Comment::where('id',21)->delete());  
+    //destroy takes array and also single
+    // dd(Comment::destroy([20,24]));  
+    // $comment = Comment::find(10);
+    // dump($comment->rating); // Accessor example with column name  it takes argument      
+    // $results = Comment::find(10);
+    // dump($results->Who_What);
+    $comment  = new Comment();
+    $comment->user_id = 3;
+    $comment->content = "testing mutator";
+    $comment->rating = 3 ;
+    $comment->save();
 });
