@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use App\Address;
 class User extends Authenticatable
 {
     use Notifiable;
@@ -37,4 +37,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'meta' => 'json'
     ];
+    public function address()
+    {
+        return $this->hasOne('App\Address','user_id','id');
+    }
 }

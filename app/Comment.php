@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Comment extends Model
 {
+    protected $casts = [ 'rating' => 'float'];
     protected $fillable = ['content','rating','user_id'];
     // protected static function booted()
     // {
@@ -37,7 +38,11 @@ class Comment extends Model
     public function setContentAttribute($val)
     {
          $this->attributes['content'] = strtoupper($val);
-         $this->attributes['rating']= +1;
+    }
+    public function setRatingAttribute($val)
+    {
+         $this->attributes['rating'] = $val + 10;
+        
     }
 
 }

@@ -347,9 +347,15 @@ Route::get('/eloquent',function()
     // dump($comment->rating); // Accessor example with column name  it takes argument      
     // $results = Comment::find(10);
     // dump($results->Who_What);
-    $comment  = new Comment();
-    $comment->user_id = 3;
-    $comment->content = "testing mutator";
-    $comment->rating = 3 ;
-    $comment->save();
+    // $comment  = new Comment();
+    // $comment->user_id = 3;
+    // $comment->content = "testing mutator";
+    // $comment->rating = 3;
+    // dd($comment);
+    // $comment->save();
+    // $comment = Comment::where('id',29)->update(['content' => 'testersssss test 1233']);
+    // dd($comment);
+    $results = App\Address::find(1);
+    
+    dump($results->users);
 });
