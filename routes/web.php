@@ -4,6 +4,7 @@ use App\User;
 use App\Reservation;
 use App\Comment;
 use App\Room;
+use App\City;
 use Illuminate\Support\Facades\Hash;
 /*
 |--------------------------------------------------------------------------
@@ -354,8 +355,16 @@ Route::get('/eloquent',function()
     // dd($comment);
     // $comment->save();
     // $comment = Comment::where('id',29)->update(['content' => 'testersssss test 1233']);
-    // dd($comment);
-    $results = App\Address::find(1);
+    // // dd($comment);
+    // $results = App\Address::find(1);
     
-    dump($results->users);
+    // dump($results->users->name);
+    // $user = User::find(1);
+    // dump($user->comments);
+    // $comment = Comment::find(8);
+    // dump($comment->user);
+    // $city = City::find(1);
+    // dump($city->rooms);
+    $rooms = Room::find(1);
+    dump($rooms->cities);
 });
