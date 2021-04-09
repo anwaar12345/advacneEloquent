@@ -17,11 +17,13 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->unsignedBigInteger('company_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->json('meta')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
         });
         Schema::connection('sqlite')->dropIfExists('users');
         Schema::connection('sqlite')->create('users', function (Blueprint $table) {

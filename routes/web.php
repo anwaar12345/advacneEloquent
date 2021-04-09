@@ -374,5 +374,6 @@ Route::get('/eloquent',function()
     // }
     // $result = Comment::find(1);
     // echo $result->country;
-    
+    $result = \App\Company::find(1);
+    dump($result->reservations);
 });

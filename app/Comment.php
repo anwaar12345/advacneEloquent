@@ -51,7 +51,7 @@ class Comment extends Model
 
     public function country()
     {
-        return $this->hasOneThrough('App\Address','App\User','id','user_id','id','id')
+        return $this->hasOneThrough('App\Address','App\User','id','user_id','user_id','id')
         ->select('name as country');
     }
 }
