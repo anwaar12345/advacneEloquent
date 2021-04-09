@@ -365,12 +365,14 @@ Route::get('/eloquent',function()
     // dump($comment->user);
     // $city = City::find(1);
     // dump($city->rooms);
-    $rooms = Room::all();
-    foreach($rooms as $room){
-      foreach($room->cities as $city){
-        //    dump($city->name);
-        dump($city->city_room->created_at);
-      }
-    }
-  
+    // $rooms = Room::all();
+    // foreach($rooms as $room){
+    //   foreach($room->cities as $city){
+    //     //    dump($city->name);
+    //     dump($city->city_room);
+    //   }
+    // }
+    // $result = Comment::find(1);
+    // echo $result->country;
+    
 });
