@@ -12,4 +12,8 @@ class City extends Model
                     ->withPivot('created_at','updated_at')
                     ->as('city_room');
     }
+    public function image()
+    {
+        return $this->morphOne('App\Image','imageable');
+    }
 }
