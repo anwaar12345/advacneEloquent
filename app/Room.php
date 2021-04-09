@@ -13,6 +13,8 @@ class Room extends Model
     
     public function cities()
     {
-       return $this->belongsToMany('App\City','city_room','room_id','city_id');
+       return $this->belongsToMany('App\City','city_room','room_id','city_id')
+       ->withPivot('created_at','updated_at')
+       ->as('city_room');
     }
 }
