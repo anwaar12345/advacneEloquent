@@ -376,6 +376,14 @@ Route::get('/eloquent',function()
     // echo $result->country;
     // $result = \App\Company::find(2);
     // dump($result->reservations);
-    $result = User::find(3);
-    dump($result->imageable);
+    // $result = User::find(3);
+    // dump($result->imageable);
+    // $users = User::whereHas('comments',function($query){
+    //     $query->where('rating','=',2);
+    // },'>=' ,1)->with(['comments'])->get(); 
+    // dump($users);
+    $users = User::withCount(['comments','comments as negative_rating' => function($query){
+        $query->where('rating','<',3);
+    }])->get();
+    dump($users);
 });
