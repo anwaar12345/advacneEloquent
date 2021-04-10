@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\City;
+use App\CityRoom;
 class Room extends Model
 {
     // protected $table = 'my_rooms';if we have own naming convention for database
@@ -15,6 +16,7 @@ class Room extends Model
     {
        return $this->belongsToMany('App\City','city_room','room_id','city_id')
        ->withPivot('created_at','updated_at')
-       ->as('city_room');
+       ->as('city_room')
+       ->using('App\CityRoom');
     }
 }

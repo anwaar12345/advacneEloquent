@@ -5,6 +5,7 @@ use App\Reservation;
 use App\Comment;
 use App\Room;
 use App\City;
+use App\Address;
 use Illuminate\Support\Facades\Hash;
 /*
 |--------------------------------------------------------------------------
@@ -382,8 +383,78 @@ Route::get('/eloquent',function()
     //     $query->where('rating','=',2);
     // },'>=' ,1)->with(['comments'])->get(); 
     // dump($users);
-    $users = User::withCount(['comments','comments as negative_rating' => function($query){
-        $query->where('rating','<',3);
-    }])->get();
-    dump($users);
+//======================================= Database Old practice Basics (Ends) =======================//
+//======================================= Querying Database (Starts) ==================================//
+
+
+    // $users = User::withCount(['comments','comments as negative_rating' => function($query){
+    //     $query->where('rating','<',3);
+    // }])->get();
+    // dump($users);
+
+    // ================================== Querying polymorphic relationship ========================== //
+    // $comment = Comment::whereHasMorph('commentable',
+    // ['App\Image','App\Room'],function($query,$type){
+    //     if($type=="App\Room"){
+    //         $query->where('room_size','>',2);
+    //         $query->orWhere('room_size','<',2);
+    //     }
+    // })->get();
+    // dump($comment);
+    // $commentable = Comment::with(['commentable' => function($morphTo){
+    //     $morphTo->morphWith([
+    //         Room::class => ['comments'],
+    //         Image::class => ['comments'],
+    //         ]);
+    // }])->get();
+    // dump($commentable);
+    // ================================ insert/update and delete related models ========================= //
+    // $user = User::find(1);
+    // dump($user->address()->save(
+    //     new Address(['number' => 2, 'street' => 'testing usa', 'country' => 'usa'])
+    // ));// save single related model ($user->address()->delete() it will delete related model)
+    // $user = User::find(1);
+    // // $user->address()->delete();
+    // dump($user->address()->saveMany([
+    //     new Address(['number' => 3, 'street' => 'testing uk1', 'country' => 'uk']),
+    //     new Address(['number' => 4, 'street' => 'testing AU1', 'country' => 'AU'])]
+    // ));
+    // $user = User::find(1);
+    // dump($user->address()->create([
+    //     'number' => 1,
+    //     'street' => 'testcreate',
+    //     'country' => 'usa'
+    // ]));
+    // $user = User::find(1);
+    // dump($user->address()->createMany([
+    //     [
+    //         'number' => 12,
+    //         'street' => 'test create many1',
+    //         'country' => 'usa'
+    //     ],
+    //     [
+    //         'number' => 13,
+    //         'street' => 'test create many2',
+    //         'country' => 'usa2'
+    //     ]
+    // ]));
+    // $address = Address::find(1);
+    // $user = User::find(2);
+    // $address->users()->associate($user); //belongs to 
+    // dump($address->save());
+    // $city = City::find(1);
+    // $result =  $city->rooms()->attach(3);
+    // dump($result);
+    
+    // ========================================== Lazy Loading V/S Eager Loading //
+    // $users = User::limit(2)->get();
+    $users = User::has('address')->with(['address' => function ($query)
+    {
+       $query->where('street',"LIKE", '%T%');
+    }])
+    ->get();
+     foreach($users as $user){
+        echo $user->address->street."</br>";
+    }
+    // dump($users);
 });
