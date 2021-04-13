@@ -448,13 +448,39 @@ Route::get('/eloquent',function()
     
     // ========================================== Lazy Loading V/S Eager Loading //
     // $users = User::limit(2)->get();
-    $users = User::has('address')->with(['address' => function ($query)
-    {
-       $query->where('street',"LIKE", '%T%');
-    }])
-    ->get();
-     foreach($users as $user){
-        echo $user->address->street."</br>";
-    }
-    // dump($users);
+    // $users = User::has('address')->with(['address' => function ($query)
+    // {
+    // //    $query->where('street',"LIKE", '%T%');
+    // }])
+
+    // ->get();
+    // $users = DB::table('users')->join('addresses','users.id','=','addresses.user_id')
+    // // ->get();
+    // $users = DB::select('SELECT u.name,u.email,a.street,a.country,a.user_id FROM users u INNER JOIN addresses a ON u.id = a.user_id');
+    // //  foreach($users as $user){
+    // //     echo $user->address->street."</br>";
+    // // }
+    // dump(collect($users));
+
+    // $results = DB::table('comments')
+    //             ->selectRaw('COUNT(rating) as rating_count, rating')
+    //             ->groupBy('rating')
+    //             ->orderBy('rating_count','asc')
+    //             ->get();
+    // dd($results);    
+    // $results = DB::table('comments')
+    //             ->select('content','rating')
+    //             ->selectRaw('CASE WHEN rating < 10 THEN "Average" 
+    //             WHEN rating >= 10 THEN "Good Rating"
+    //             ELSE "Rating no found" END AS rating_comments')
+    //             ->orderBy('rating','ASC')
+    //             ->get();
+    // dd($results); 
+    // $results = Reservation::select('*') 
+    //             ->selectRaw('DATEDIFF(check_out,check_in) AS stay')
+    //             ->orderBy('stay','DESC')
+    //             ->get();
+    // dd($results);
+    $results = User::with(['address'])->get()->toJson();
+    dump($results);                              
 });
