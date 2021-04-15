@@ -7,6 +7,8 @@
         use App\City;
         use App\Address;
         use Illuminate\Support\Facades\Hash;
+        use App\Http\Resources\UserResource;
+        use App\Http\Resources\UsersCollection;
         /*
         |--------------------------------------------------------------------------
         | Web Routes
@@ -483,5 +485,12 @@
             // dd($results);
             // $results = User::has('address')->with(['address'])
             // ->where('id',3)->get()->toJson();
-            // dump($results);                              
-        });
+            // dump($results);
+        //    ====================================== Resource Serialization kick start ================================== //   
+            //    $results = new UserResource(User::get()->makeVisible('password'));
+            // $results = new UserResource(User::find(1)); //single user
+            //    return $results;  
+            $results = new UsersCollection(User::with(['comments:id,content,user_id'])
+            ->select('id','name','email')->paginate(2));
+            return $results;
+    });
