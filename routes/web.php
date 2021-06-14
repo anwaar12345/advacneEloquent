@@ -9,7 +9,9 @@
         use Illuminate\Support\Facades\Hash;
         use App\Http\Resources\UserResource;
         use App\Http\Resources\UsersCollection;
-        /*
+        use Illuminate\Support\Facades\Route;
+
+/*
         |--------------------------------------------------------------------------
         | Web Routes
         |--------------------------------------------------------------------------
@@ -493,4 +495,92 @@
             $results = new UsersCollection(User::with(['comments:id,content,user_id'])
             ->select('id','name','email')->paginate(2));
             return $results;
+    });
+
+
+
+    Route::get('one-to-one',function()
+    {
+        $users = User::with('address')->get();
+        $data = $users->map(function($user)
+        {
+           $data_user = [
+                'name' => $user->name,
+                'email' => $user->email,
+                'skills' => $user->meta['skills'],
+                'address' => $user->address->street.' '.$user->address->country     
+           ];
+           return $data_user;
+        });
+        
+        return response()->json([
+            'users' => $data,
+        ]);
+    });
+
+    Route::get('one-to-one-inverse',function()
+    {
+       $address = Address::has('user')->with([
+           'user' => function($q){
+                $q->select('id','name','email');
+           }
+       ])
+       ->get()->map(function($addressed)
+       {
+        {
+            $data_address = [
+             'name' => $addressed->user->name,
+             'email' => $addressed->user->email,
+             'address' => 
+             [
+                'number' => $addressed->number,
+                'street' => $addressed->street,
+                'country' => $addressed->country
+             ]
+             
+            ];
+            return $data_address;
+        }
+       });
+       return response()->json(['status_code'=> 200,'message'=>'success','data'=>$address]);
+    });
+
+
+
+    Route::get('one-to-many',function()
+    {
+        $user_reservations = User::with(['comments:content,rating,user_id'])->get();
+        $data_user = $user_reservations->map(function($user_reservation)
+        {
+          return  [
+                'name' => $user_reservation->name,
+                'email' => $user_reservation->email,
+                'company_id' => $user_reservation->company_id,
+                'skills' => $user_reservation->meta['skills'],
+                'comments' => $user_reservation->comments->map(function($comment)
+                {
+                  return [
+                      'comment_content' => $comment->content
+                    ];
+                })
+            ];
+        });
+        return response()->json(['users' => $data_user]);
+    });
+
+
+    Route::get('many-to-one',function(){
+        $comments = Comment::with(['user:id,name,email'])->get();
+        return response()->json(['comments' => $comments]); 
+    });
+    
+    Route::get('many-to-many',function(){
+        $room_cities = Room::with(['cities_data'])->get();
+        return response()->json($room_cities);
+    });
+    
+
+    Route::get('many-to-many-inverse',function(){
+        $cities_rooms = City::with(['rooms_data'])->get();
+        return response()->json($cities_rooms);
     });

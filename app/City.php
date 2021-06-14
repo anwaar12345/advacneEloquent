@@ -18,4 +18,8 @@ class City extends Model
     {
         return $this->morphOne('App\Image','imageable');
     }
+    public function rooms_data()
+    {
+        return $this->belongsToMany('App\City','city_room','city_id','room_id');
+    }
 }

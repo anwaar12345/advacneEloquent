@@ -19,4 +19,9 @@ class Room extends Model
        ->as('city_room')
        ->using('App\CityRoom');
     }
+    public function cities_data()
+    {
+        return $this->belongsToMany('App\City','city_room','room_id','city_id');
+    }
+
 }
