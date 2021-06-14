@@ -584,3 +584,17 @@
         $cities_rooms = City::with(['rooms_data'])->get();
         return response()->json($cities_rooms);
     });
+
+Route::group(['prefix' => 'builder'],function()
+{
+    Route::get('/practice',function()
+    {
+        return  \DB::table('users')->get();
+    });
+});
+
+
+
+
+
+
