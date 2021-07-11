@@ -16,11 +16,14 @@ class CreateCommentsTable extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->text('content')->nullable();
-            $table->unsignedBigInteger('user_id');
-
+            $table->integer('rating')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('commentable_type')->nullable();
+            $table->bigInteger('commentable_id')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
+        DB::statement('ALTER TABLE comments ADD FULLTEXT full_text (content)');
         Schema::connection('sqlite')->dropIfExists('comments');
         Schema::connection('sqlite')->create('comments', function (Blueprint $table) {
             

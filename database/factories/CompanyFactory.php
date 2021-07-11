@@ -2,11 +2,11 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\City;
+use App\Company;
 use Faker\Generator as Faker;
 
-$factory->define(City::class, function (Faker $faker) {
+$factory->define(Company::class, function (Faker $faker) {
     return [
-        'name' => $faker->unique()->city,
+        'name' => $faker->company,
     ];
 });

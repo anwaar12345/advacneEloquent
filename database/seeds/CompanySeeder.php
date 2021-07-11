@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Comment;
-class CitySeeder extends Seeder
+use App\Company;
+class CompanySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +11,6 @@ class CitySeeder extends Seeder
      */
     public function run()
     {
-        factory(App\City::class,3)->create();
+        factory(App\Company::class,2)->create();
     }
 }

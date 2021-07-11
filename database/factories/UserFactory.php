@@ -22,8 +22,17 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
+        'company_id' => mt_rand(1,2),
         'email_verified_at' => now(),
         'password' => Hash::make('shah'), // password
+        'meta' => [
+            'settings'=> [
+            'site_background' => 'black',
+            'site_lang' => 'en'
+        ],
+        'skills'  => $faker->randomElements(['php','laravel','js','wordpress','aws'],mt_rand(1,6)),
+        'gender' => $faker->randomElement(['male','female','other'])
+],
         'remember_token' => Str::random(10),
     ];
 });

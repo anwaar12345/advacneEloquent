@@ -12,12 +12,12 @@ class UserSeeder extends Seeder
     public function run()
     {
         factory(App\User::class,3)->create();
-        $connection = 'sqlite';
-        $users = factory(App\User::class,3)->make();
-        $users->each( function ($model) use($connection)
-        {
-            $model->setConnection($connection);
-            $model->save();
-        });
+        // $connection = 'sqlite';
+        // $users = factory(App\User::class,3)->make();
+        // $users->each( function ($model) use($connection)
+        // {
+        //     $model->setConnection($connection);
+        //     $model->save();
+        // });
     }
 }
