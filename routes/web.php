@@ -36,5 +36,28 @@ Route::get('/', function () {
 
 // },5);
 // dump(factory(App\Comment::class,3)->create());
+
+// $users = DB::table('users')->select(DB::raw('COUNT(id) AS count'))->where('name','LIKE', "m_.%")->get();
+
+// dump($users);
+
+// $comments = DB::table('comments')
+// ->select(DB::raw('COUNT(user_id) as comment_count,users.name'))
+// ->join('users','users.id','=','comments.user_id')
+// ->groupBy('user_id','users.name')
+// ->get();
+// $comments = DB::table('users')
+// ->selectRaw('LENGTH(name) as name_length,name')
+// ->orderByRaw('LENGTH(name)  DESC')
+// ->get();
+// $comments = DB::table('users')
+//     ->selectRaw('LENGTH(name) as counted')
+//     ->orderBy(DB::raw('LENGTH(name)'),'desc')
+//     ->get();
+$comments = DB::table('comments')
+            ->latest(DB::raw('comments'))
+            ->get();
+dump($comments);
+
 });
 
