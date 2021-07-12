@@ -11,4 +11,6 @@ class Company extends Model
     {
         return $this->hasManyThrough('App\Reservation','App\User','company_id','user_id','id','id');
     }
+    
+
 }

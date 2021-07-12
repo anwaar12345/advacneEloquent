@@ -6,6 +6,7 @@
         use App\Room;
         use App\City;
         use App\Address;
+        use App\Company;
         use Illuminate\Support\Facades\Hash;
         use App\Http\Resources\UserResource;
         use App\Http\Resources\UsersCollection;
@@ -594,7 +595,38 @@ Route::group(['prefix' => 'builder'],function()
 });
 
 
+Route::group(['prefix' => 'revision'],function(){
+    Route::get('one-to-one',function(){
+ 
+        // User::whereHas('address', function($query){
+        //     $query->whereStreet('Junior Locks');
+        // }
+        return User::has('address')->with(['address' => function($query){
+            $query->whereStreet('Junior Locks');
+        }])->get();
+    });
 
+    Route::get('one-many',function(){
+        return User::whereHas('comments',function($query){
+            $query->havingRaw('COUNT(comments.user_id) > 1');
+        })->with('comments')->get();
+    });
+
+    Route::get('many-many',function(){
+        return City::with(['rooms' => function($query){
+            $query->whereRoomSize('5')->where('price','>','3');
+        }])->get();
+    });
+
+    Route::get('one-through',function(){
+        return Comment::with('country')->get();
+    });
+
+    Route::get('many-many-through',function(){
+        return Company::with('reservations')->get();
+    });
+
+});
 
 
 
